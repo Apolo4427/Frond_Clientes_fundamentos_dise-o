@@ -1,16 +1,19 @@
-export interface ClienteBase {
+export interface ClienteResponseDto {
+  id: string;                   
   nombre: string;
   apellido: string;
   telefono: string;
   correoElectronico: string;
-  direccionPrincipal: string;
+  direccionPrincipal: string;    // coincide con el JSON de la API
   notasGenerales: string;
 }
 
-export interface ClienteCreateDto extends ClienteBase {}
+// Crear: todos menos id
+export type ClienteCreateDto = Omit<ClienteResponseDto, 'id'>;
 
-export interface ClienteUpdateDto extends ClienteBase {
-  id: string;
-}
+// Update: solo contacto + id
+export type ClienteUpdateDto = Pick<
+  ClienteResponseDto,
+  'id' | 'telefono' | 'correoElectronico' | 'direccionPrincipal'
+>;
 
-export interface ClienteResponseDto extends ClienteUpdateDto {}

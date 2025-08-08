@@ -3,14 +3,21 @@ import type { ClienteCreateDto, ClienteUpdateDto, ClienteResponseDto } from '../
 
 const R = '/clientes';
 
-export const getClienteById = (id: string) =>
-  api.get<ClienteResponseDto>(`${R}/${id}`).then(r => r.data);
+export function getClienteById(id: string): Promise<ClienteResponseDto> {
+  return api.get<ClienteResponseDto>(`${R}/${id}`).then(r => r.data);
+}
 
-export const createCliente = (data: ClienteCreateDto) =>
-  api.post<ClienteResponseDto>(R, data).then(r => r.data);
+export function createCliente(data: ClienteCreateDto): Promise<ClienteResponseDto> {
+  return api.post<ClienteResponseDto>(R, data).then(r => r.data);
+}
 
-export const updateCliente = (data: ClienteUpdateDto) =>
-  api.put<ClienteResponseDto>(`${R}/${data.id}`, data).then(r => r.data);
+export function updateCliente(data: ClienteUpdateDto): Promise<ClienteResponseDto> {
+  const { id, ...body } = data;              // id va en la URL
+  return api.put<ClienteResponseDto>(`${R}/${id}`, body).then(r => r.data);
+}
 
-export const deleteCliente = (id: string) =>
-  api.delete<void>(`${R}/${id}`).then(r => r.data);
+export function deleteCliente(id: string): Promise<void> {
+  return api.delete<void>(`${R}/${id}`).then(() => {});
+}
+
+

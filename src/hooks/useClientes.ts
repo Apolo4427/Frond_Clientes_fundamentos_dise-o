@@ -1,33 +1,44 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import * as api from '../api/clientes';
-import type { ClienteCreateDto, ClienteUpdateDto } from '../types/cliente';
+import {
+  getClienteById,
+  createCliente,
+  updateCliente,
+  deleteCliente,
+} from '../api/clientes';
+import type {
+  ClienteCreateDto,
+  ClienteUpdateDto,
+  ClienteResponseDto,
+} from '../types/cliente';
 
 export const useClienteById = (id?: string) =>
-  useQuery({
+  useQuery<ClienteResponseDto, Error>({
     queryKey: ['cliente', id],
-    queryFn: () => api.getClienteById(id!),
-    enabled: !!id
+    queryFn: () => getClienteById(id!),
+    enabled: !!id,
   });
 
 export const useCrearCliente = () => {
   const qc = useQueryClient();
-  return useMutation({
-    mutationFn: (data: ClienteCreateDto) => api.createCliente(data),
+  return useMutation<ClienteResponseDto, Error, ClienteCreateDto>({
+    mutationFn: (data) => createCliente(data),
     onSuccess: (c) => {
       qc.setQueryData(['cliente', c.id], c);
-    }
+    },
   });
 };
 
 export const useActualizarCliente = () => {
   const qc = useQueryClient();
-  return useMutation({
-    mutationFn: (data: ClienteUpdateDto) => api.updateCliente(data),
+  return useMutation<ClienteResponseDto, Error, ClienteUpdateDto>({
+    mutationFn: (data) => updateCliente(data),
     onSuccess: (c) => {
       qc.setQueryData(['cliente', c.id], c);
-    }
+    },
   });
 };
 
 export const useBorrarCliente = () =>
-  useMutation({ mutationFn: (id: string) => api.deleteCliente(id) });
+  useMutation<void, Error, string>({
+    mutationFn: (id) => deleteCliente(id),
+  });

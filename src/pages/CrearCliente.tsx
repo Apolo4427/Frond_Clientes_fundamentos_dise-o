@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom';
-import ClienteForm from '../components/ClienteForm';
+import { ClienteCreateForm } from '../components/ClienteForm';
 import { useCrearCliente } from '../hooks/useClientes';
 
 export default function CrearCliente() {
@@ -9,12 +9,10 @@ export default function CrearCliente() {
   return (
     <div className="container">
       <h2 style={{ marginBottom: 12 }}>Crear cliente</h2>
-      <ClienteForm
-        mode="create"
+      <ClienteCreateForm
         submitting={create.isPending}
         onSubmit={async (data) => {
           const nuevo = await create.mutateAsync(data);
-          // nuevo.id viene del DTO de respuesta
           nav(`/clientes/${nuevo.id}`);
         }}
       />
