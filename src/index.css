@@ -50,3 +50,52 @@ a:hover {
   box-shadow: 0 1px 3px rgba(0,0,0,0.1);
 }
 
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  background: #fff;
+  border-radius: 6px;
+  padding: 10px 12px;
+  margin-bottom: 16px;
+  box-shadow: 0 1px 3px rgba(0,0,0,.08);
+}
+.nav-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.brand {
+  font-weight: bold;
+  font-size: 18px;
+  margin-right: 8px;
+}
+.input {
+  padding: 6px 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  min-width: 220px;
+}
+.btn-light {
+  background: #e9f2ff;
+  color: #064b9a;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.table th, .table td {
+  padding: 10px;
+  border-bottom: 1px solid #eee;
+}
+.table thead th {
+  text-align: left;
+  background: #f8f8f8;
+}

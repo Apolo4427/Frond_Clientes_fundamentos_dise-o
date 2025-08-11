@@ -20,4 +20,6 @@ export function deleteCliente(id: string): Promise<void> {
   return api.delete<void>(`${R}/${id}`).then(() => {});
 }
 
-
+export function getClientes(): Promise<ClienteResponseDto[]> {
+  return api.get<ClienteResponseDto[]>('/clientes').then(r => r.data);
+}

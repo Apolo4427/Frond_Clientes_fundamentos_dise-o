@@ -1,6 +1,7 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import {
   getClienteById,
+  getClientes,        // +++
   createCliente,
   updateCliente,
   deleteCliente,
@@ -10,6 +11,13 @@ import type {
   ClienteUpdateDto,
   ClienteResponseDto,
 } from '../types/cliente';
+
+export const useClientes = () =>
+  useQuery<ClienteResponseDto[], Error>({
+    queryKey: ['clientes'],
+    queryFn: () => getClientes(),
+  });
+
 
 export const useClienteById = (id?: string) =>
   useQuery<ClienteResponseDto, Error>({
@@ -24,6 +32,7 @@ export const useCrearCliente = () => {
     mutationFn: (data) => createCliente(data),
     onSuccess: (c) => {
       qc.setQueryData(['cliente', c.id], c);
+      qc.invalidateQueries({ queryKey: ['clientes'] }); // refresca la lista
     },
   });
 };
@@ -34,11 +43,15 @@ export const useActualizarCliente = () => {
     mutationFn: (data) => updateCliente(data),
     onSuccess: (c) => {
       qc.setQueryData(['cliente', c.id], c);
+      qc.invalidateQueries({ queryKey: ['clientes'] });
     },
   });
 };
 
-export const useBorrarCliente = () =>
-  useMutation<void, Error, string>({
+export const useBorrarCliente = () => {
+  const qc = useQueryClient();
+  return useMutation<void, Error, string>({
     mutationFn: (id) => deleteCliente(id),
+    onSuccess: () => qc.invalidateQueries({ queryKey: ['clientes'] }),
   });
+};
